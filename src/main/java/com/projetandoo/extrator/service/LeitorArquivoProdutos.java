@@ -10,9 +10,11 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
+import com.projetandoo.extrator.model.Estoque;
+import com.projetandoo.extrator.model.Loja;
 import com.projetandoo.extrator.model.Produto;
 
-public class LeitorArquivoProdutosFornecedores {
+public class LeitorArquivoProdutos {
 
 	private static final String PREFIX_MARKAO        	= "MARKAO COSMETICOS";
 	private static final String PREFIX_FINAL_ARQUIVO    = "-----";
@@ -20,9 +22,9 @@ public class LeitorArquivoProdutosFornecedores {
 	
 	private Map<String, Produto> produtos = new HashMap<String, Produto>();
 	
-	private String nomeLoja = "";
+	private Loja loja = new Loja();
 	
-	private static final Logger logging = Logger.getLogger(LeitorArquivoProdutosFornecedores.class);
+	private static final Logger logging = Logger.getLogger(LeitorArquivoProdutos.class);
 
 	public Map<String, Produto> leArquivo(String arquivo) throws IOException {
 
@@ -30,10 +32,13 @@ public class LeitorArquivoProdutosFornecedores {
 
 		String linha = buffReader.readLine();
 
-		//Ignorando header inicial e capturando nome da loja
+		//Ignorando header inicial e capturando a loja:
 		for (int i = 1; i <= 8; i++) {
 			if (i == 4) {
-				nomeLoja = linha.substring(14, 34).trim();
+				Long idLoja = Long.parseLong(linha.substring(10, 13).trim());
+				String nomeLoja = linha.substring(14, 34).trim();
+				loja.setId(idLoja);
+				loja.setNome(nomeLoja);
 			}
 			linha = buffReader.readLine();
 		}
@@ -59,13 +64,17 @@ public class LeitorArquivoProdutosFornecedores {
 			String[] items = StringUtils.split(linha, "|");
 			String nome = items[0].trim();
 			String codigo = items[1].trim();
-			String estoque = items[2].substring(0, 6).trim();
+			
+			String estoqueDisponivel = items[2].substring(0, 6).trim();
 			String codBarra = items[7].trim();
 			String nomeFornecedor = items[8].trim();
 			
-			logging.debug(nome + "\t" + codigo + "\t[" + estoque + "]\t[" + codBarra + "]\t" + nomeFornecedor + "\t" + nomeLoja);
+			logging.debug(nome + "\t" + codigo + "\t[" + estoqueDisponivel
+					+ "]\t[" + codBarra + "]\t" + nomeFornecedor + "\t"
+					+ loja.getId());
 
-			Produto produto = atualizaValoresProduto(nome, codigo, estoque, codBarra, nomeFornecedor, nomeLoja);
+			Produto produto = atualizaValoresProduto(nome, codigo,
+					estoqueDisponivel, codBarra, nomeFornecedor);
 
 			produtos.put(codigo, produto);
 			linha = buffReader.readLine();
@@ -76,19 +85,28 @@ public class LeitorArquivoProdutosFornecedores {
 	}
 
 
-	public Produto atualizaValoresProduto(String nome, String codigo, String estoque, 
-			String codBarra, String fornecedor, String nomeLoja) {
+	public Produto atualizaValoresProduto(String nome, String codigo, String estoqueDisponivel, 
+			String codBarra, String fornecedor) {
 
-		Produto produto = new Produto(nomeLoja);
+		Produto produto = new Produto();
+		
+		//setando a loja do produto:
+		produto.setLoja(loja);
 
 		produto.setNome(nome);
-		produto.setCodigo(codigo);
+		produto.setCodigo(Long.parseLong(codigo));
 
-		if (estoque.isEmpty())
-			produto.setEstoque(Integer.valueOf(0));
-		else
-			produto.setEstoque(Integer.parseInt(estoque));
-
+		Estoque estoque = new Estoque();
+		
+		if (estoqueDisponivel.isEmpty()) {
+			estoque.setDisponivel(Integer.valueOf(0));
+			produto.setEstoque(estoque);
+		}
+		else {
+			estoque.setDisponivel(Long.parseLong(estoqueDisponivel));
+			produto.setEstoque(estoque);
+		}
+			
 		if (codBarra.isEmpty())
 			produto.setCodigoBarra(null);
 		else
@@ -98,6 +116,7 @@ public class LeitorArquivoProdutosFornecedores {
 
 		return produto;
 	}
+	
 
 	public Map<String, Produto> getProdutos() {
 		return produtos;

@@ -17,7 +17,7 @@ import org.apache.log4j.Logger;
 
 import com.projetandoo.extrator.model.Produto;
 
-public class LeitorArquivoProdutosPrecos {
+public class LeitorArquivoPrecos {
 
 	private static final String PREFIX_MARKAO 			= "MARKAO COSMETICOS";
 	private static final String PREFIX_PRODUTO_INVALIDO = "SALDO DE BALANCO";
@@ -26,9 +26,9 @@ public class LeitorArquivoProdutosPrecos {
 
 	private List<Produto> produtosListaSaida = new ArrayList<Produto>();
 	
-	private static final Logger logging = Logger.getLogger(LeitorArquivoProdutosPrecos.class);
+	private static final Logger logging = Logger.getLogger(LeitorArquivoPrecos.class);
 	
-	public LeitorArquivoProdutosPrecos(Map<String, Produto> produtosMapEntrada) {
+	public LeitorArquivoPrecos(Map<String, Produto> produtosMapEntrada) {
 		this.produtosMapaEntrada = produtosMapEntrada;
 	}
 

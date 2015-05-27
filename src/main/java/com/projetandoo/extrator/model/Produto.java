@@ -7,13 +7,11 @@ public class Produto implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private Long id;
-
 	private String nome;
 
-	private String codigo;
+	private Long codigo;
 
-	private Integer estoque;
+	private Estoque estoque;
 
 	private String codigoBarra;
 
@@ -22,18 +20,14 @@ public class Produto implements Serializable{
 	private BigDecimal valorVenda;
 
 	private String nomeFornecedor;
-	
-	private Loja loja;
-	
 
-	public Produto(String nomeLoja) {
-		this.loja = new Loja(nomeLoja);
-	}
+	private Loja loja;
+
 
 	@Override
 	public String toString() {
-		return getId() + "||" + getNome() + "||" + getCodigo() + "||"
-				+ getEstoque() + "||" + getCodigoBarra() + "||"
+		return getNome() + "||" + getCodigo() + "||"
+				+ getEstoque().getDisponivel() + "||" + getCodigoBarra() + "||"
 				+ getNomeFornecedor() + "||" + getValorCusto() + "||"
 				+ getValorVenda() + "||" + getLoja().getNome();
 	}
@@ -63,22 +57,6 @@ public class Produto implements Serializable{
 		return true;
 	}
 
-	public Produto(Long id) {
-		this.id = id;
-	}
-
-	public Produto(Long id, String nomeProduto) {
-		this.id = id;
-		this.nome = nomeProduto;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return nome;
@@ -104,19 +82,19 @@ public class Produto implements Serializable{
 		this.valorVenda = valorVenda;
 	}
 
-	public String getCodigo() {
+	public Long getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
 
-	public Integer getEstoque() {
+	public Estoque getEstoque() {
 		return estoque;
 	}
 
-	public void setEstoque(Integer estoque) {
+	public void setEstoque(Estoque estoque) {
 		this.estoque = estoque;
 	}
 
