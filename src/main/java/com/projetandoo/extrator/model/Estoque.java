@@ -1,68 +1,59 @@
 package com.projetandoo.extrator.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
-public class Estoque implements Serializable {
+public class Estoque implements Serializable 
+{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2673082177703373215L;
 
-	private long minimo;
+	private BigDecimal minimo;
 
-	private long disponivel;
+	private BigDecimal disponivel;
 
-	private long maximo;
+	private BigDecimal maximo;
 
-	private long ressuprimento;
+	private BigDecimal ressuprimento;
 
-	private long reposicao;
-	
-	
+
+	public BigDecimal getMinimo() {
+		return minimo;
+	}
+
+	public void setMinimo(BigDecimal minimo) {
+		this.minimo = minimo;
+	}
+
+	public BigDecimal getDisponivel() {
+		return disponivel;
+	}
+
+	public void setDisponivel(BigDecimal disponivel) {
+		this.disponivel = disponivel;
+	}
+
+	public BigDecimal getMaximo() {
+		return maximo;
+	}
+
+	public void setMaximo(BigDecimal maximo) {
+		this.maximo = maximo;
+	}
+
+	public BigDecimal getRessuprimento() {
+		return ressuprimento;
+	}
+
+	public void setRessuprimento(BigDecimal ressuprimento) {
+		this.ressuprimento = ressuprimento;
+	}
+
 	@Override
 	public String toString() {
 		return "Estoque [minimo=" + minimo + ", disponivel=" + disponivel
 				+ ", maximo=" + maximo + ", ressuprimento=" + ressuprimento
-				+ ", reposicao=" + reposicao + "]";
+				+ "]";
 	}
 
-	
-	public long getMinimo() {
-		return minimo;
-	}
-
-	public void setMinimo(long minimo) {
-		this.minimo = minimo;
-	}
-
-	public long getDisponivel() {
-		return disponivel;
-	}
-
-	public void setDisponivel(long disponivel) {
-		this.disponivel = disponivel;
-	}
-
-	public long getMaximo() {
-		return maximo;
-	}
-
-	public void setMaximo(long maximo) {
-		this.maximo = maximo;
-	}
-
-	public long getRessuprimento() {
-		return ressuprimento;
-	}
-
-	public void setRessuprimento(long ressuprimento) {
-		this.ressuprimento = ressuprimento;
-	}
-
-	public long getReposicao() {
-		return reposicao;
-	}
-
-	public void setReposicao(long reposicao) {
-		this.reposicao = reposicao;
-	}
-	
 }

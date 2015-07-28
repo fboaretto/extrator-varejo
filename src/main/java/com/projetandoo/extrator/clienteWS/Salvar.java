@@ -12,15 +12,15 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="salvar">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="produto" type="{http://schema.varejodigital.projetandoo/1.0/}ProdutoType" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * <complexType name="salvar">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="produto" type="{http://schema.varejodigital.projetandoo/1.0/}ProdutoCadastroType" minOccurs="0"/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
  * </pre>
  * 
  * 
@@ -31,17 +31,17 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class Salvar {
 
-    protected ProdutoType produto;
+    protected ProdutoCadastroType produto;
 
     /**
      * Gets the value of the produto property.
      * 
      * @return
      *     possible object is
-     *     {@link ProdutoType }
+     *     {@link ProdutoCadastroType }
      *     
      */
-    public ProdutoType getProduto() {
+    public ProdutoCadastroType getProduto() {
         return produto;
     }
 
@@ -50,10 +50,10 @@ public class Salvar {
      * 
      * @param value
      *     allowed object is
-     *     {@link ProdutoType }
+     *     {@link ProdutoCadastroType }
      *     
      */
-    public void setProduto(ProdutoType value) {
+    public void setProduto(ProdutoCadastroType value) {
         this.produto = value;
     }
 

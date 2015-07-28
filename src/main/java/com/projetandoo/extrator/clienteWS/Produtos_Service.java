@@ -17,78 +17,82 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "Produtos", targetNamespace = "http://service.varejodigital.projetandoo/1.0/", 
-	wsdlLocation = "http://www.allinshopp.com.br:80/varejodigital/produtos.svc?wsdl")
+@WebServiceClient(name = "Produtos", 
+targetNamespace = "http://service.varejodigital.projetandoo/1.0/", 
+wsdlLocation = "file:/home/fboaretto/Documentos/Projetandoo/WS/21_07/produtos.wsdl")
 public class Produtos_Service extends Service
 {
 
-    private final static URL PRODUTOS_WSDL_LOCATION;
-    private final static WebServiceException PRODUTOS_EXCEPTION;
-    private final static QName PRODUTOS_QNAME = new QName("http://service.varejodigital.projetandoo/1.0/", "Produtos");
+	private final static URL PRODUTOS_WSDL_LOCATION;
 
-    static {
-        URL url = null;
-        WebServiceException e = null;
-        try {
-            url = new URL("http://www.allinshopp.com.br:80/varejodigital/produtos.svc");
-        } catch (MalformedURLException ex) {
-            e = new WebServiceException(ex);
-        }
-        PRODUTOS_WSDL_LOCATION = url;
-        PRODUTOS_EXCEPTION = e;
-    }
+	private final static WebServiceException PRODUTOS_EXCEPTION;
 
-    public Produtos_Service() {
-        super(__getWsdlLocation(), PRODUTOS_QNAME);
-    }
+	private final static QName PRODUTOS_QNAME = new QName("http://service.varejodigital.projetandoo/1.0/", "Produtos");
 
-    public Produtos_Service(WebServiceFeature... features) {
-        super(__getWsdlLocation(), PRODUTOS_QNAME, features);
-    }
+	static {
+		URL url = null;
+		WebServiceException e = null;
+		try {
+			url = new URL("file:/home/fboaretto/Documentos/Projetandoo/WS/21_07/produtos.wsdl");
+		} catch (MalformedURLException ex) {
+			e = new WebServiceException(ex);
+		}
+		PRODUTOS_WSDL_LOCATION = url;
+		PRODUTOS_EXCEPTION = e;
+	}
 
-    public Produtos_Service(URL wsdlLocation) {
-        super(wsdlLocation, PRODUTOS_QNAME);
-    }
+	public Produtos_Service() {
+		super(__getWsdlLocation(), PRODUTOS_QNAME);
+	}
 
-    public Produtos_Service(URL wsdlLocation, WebServiceFeature... features) {
-        super(wsdlLocation, PRODUTOS_QNAME, features);
-    }
+	public Produtos_Service(WebServiceFeature... features) {
+		super(__getWsdlLocation(), PRODUTOS_QNAME, features);
+	}
 
-    public Produtos_Service(URL wsdlLocation, QName serviceName) {
-        super(wsdlLocation, serviceName);
-    }
+	public Produtos_Service(URL wsdlLocation) {
+		super(wsdlLocation, PRODUTOS_QNAME);
+	}
 
-    public Produtos_Service(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
-        super(wsdlLocation, serviceName, features);
-    }
+	public Produtos_Service(URL wsdlLocation, WebServiceFeature... features) {
+		super(wsdlLocation, PRODUTOS_QNAME, features);
+	}
 
-    /**
-     * 
-     * @return
-     *     returns Produtos
-     */
-    @WebEndpoint(name = "ProdutosSOAP")
-    public Produtos getProdutosSOAP() {
-        return super.getPort(new QName("http://service.varejodigital.projetandoo/1.0/", "ProdutosSOAP"), Produtos.class);
-    }
+	public Produtos_Service(URL wsdlLocation, QName serviceName) {
+		super(wsdlLocation, serviceName);
+	}
 
-    /**
-     * 
-     * @param features
-     *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
-     * @return
-     *     returns Produtos
-     */
-    @WebEndpoint(name = "ProdutosSOAP")
-    public Produtos getProdutosSOAP(WebServiceFeature... features) {
-        return super.getPort(new QName("http://service.varejodigital.projetandoo/1.0/", "ProdutosSOAP"), Produtos.class, features);
-    }
+	public Produtos_Service(URL wsdlLocation, QName serviceName, WebServiceFeature... features) {
+		super(wsdlLocation, serviceName, features);
+	}
 
-    private static URL __getWsdlLocation() {
-        if (PRODUTOS_EXCEPTION!= null) {
-            throw PRODUTOS_EXCEPTION;
-        }
-        return PRODUTOS_WSDL_LOCATION;
-    }
+	/**
+	 * 
+	 * @return
+	 *     returns Produtos
+	 */
+	 @WebEndpoint(name = "ProdutosSOAP")
+	 public Produtos getProdutosSOAP() {
+		 return super.getPort(new QName("http://service.varejodigital.projetandoo/1.0/", "ProdutosSOAP"), Produtos.class);
+	 }
+
+	 /**
+	  * 
+	  * @param features
+	  *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.
+	  *     Supported features not in the <code>features</code> parameter will have their default values.
+	  * @return
+	  *     returns Produtos
+	  */
+	 @WebEndpoint(name = "ProdutosSOAP")
+	 public Produtos getProdutosSOAP(WebServiceFeature... features) {
+		 return super.getPort(new QName("http://service.varejodigital.projetandoo/1.0/", "ProdutosSOAP"), Produtos.class, features);
+	 }
+
+	 private static URL __getWsdlLocation() {
+		 if (PRODUTOS_EXCEPTION!= null) {
+			 throw PRODUTOS_EXCEPTION;
+		 }
+		 return PRODUTOS_WSDL_LOCATION;
+	 }
 
 }

@@ -18,23 +18,22 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
 @WebService(name = "Produtos", targetNamespace = "http://service.varejodigital.projetandoo/1.0/")
-@XmlSeeAlso({
-    ObjectFactory.class
-})
-public interface Produtos {
-
-    /**
-     * @param produto
-     * @return
-     *     returns com.projetandoo.extrator.clienteWS.ProdutoResponseType
-     */
-    @WebMethod(action = "salvarProduto")
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "salvar", targetNamespace = "http://service.varejodigital.projetandoo/1.0/", className = "com.projetandoo.extrator.clienteWS.Salvar")
-    @ResponseWrapper(localName = "salvarResponse", targetNamespace = "http://service.varejodigital.projetandoo/1.0/", className = "com.projetandoo.extrator.clienteWS.SalvarResponse")
-    @Action(input = "salvarProduto", output = "http://service.varejodigital.projetandoo/1.0/Produtos/salvarResponse")
-    public ProdutoResponseType salvar(
-        @WebParam(name = "produto", targetNamespace = "")
-        ProdutoType produto);
+@XmlSeeAlso({ ObjectFactory.class })
+public interface Produtos 
+{
+	/**
+	 * 
+	 * @param produto
+	 * @return
+	 *     returns src.ProdutoResponseType
+	 */
+	@WebMethod(action = "salvarProduto")
+	@WebResult(targetNamespace = "")
+	@RequestWrapper(localName = "salvar", targetNamespace = "http://service.varejodigital.projetandoo/1.0/", className = "src.Salvar")
+	@ResponseWrapper(localName = "salvarResponse", targetNamespace = "http://service.varejodigital.projetandoo/1.0/", className = "src.SalvarResponse")
+	@Action(input = "salvarProduto", output = "http://service.varejodigital.projetandoo/1.0/Produtos/salvarResponse")
+	public ProdutoResponseType salvar(
+			@WebParam(name = "produto", targetNamespace = "")
+			ProdutoCadastroType produto);
 
 }

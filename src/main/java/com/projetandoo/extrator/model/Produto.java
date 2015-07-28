@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 
 public class Produto implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2234476414421868736L;
 
 	private String nome;
 
-	private Long codigo;
+	private long codigo;
 
 	private Estoque estoque;
 
@@ -19,29 +19,32 @@ public class Produto implements Serializable{
 
 	private BigDecimal valorVenda;
 
-	private String nomeFornecedor;
+	private Fornecedor fornecedor;
 
 	private Loja loja;
 
 
 	@Override
-	public String toString() {
+	public String toString() 
+	{
 		return getNome() + "||" + getCodigo() + "||"
 				+ getEstoque().getDisponivel() + "||" + getCodigoBarra() + "||"
-				+ getNomeFornecedor() + "||" + getValorCusto() + "||"
+				+ getFornecedor().getNome() + "||" + getValorCusto() + "||"
 				+ getValorVenda() + "||" + getLoja().getNome();
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode() 
+	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((codigo == null) ? 0 : codigo.hashCode());
+		result = prime * result + (int) (codigo ^ (codigo >>> 32));
 		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(Object obj) 
+	{
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -49,14 +52,10 @@ public class Produto implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Produto other = (Produto) obj;
-		if (codigo == null) {
-			if (other.codigo != null)
-				return false;
-		} else if (!codigo.equals(other.codigo))
+		if (codigo != other.codigo)
 			return false;
 		return true;
 	}
-
 
 	public String getNome() {
 		return nome;
@@ -82,11 +81,11 @@ public class Produto implements Serializable{
 		this.valorVenda = valorVenda;
 	}
 
-	public Long getCodigo() {
+	public long getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(Long codigo) {
+	public void setCodigo(long codigo) {
 		this.codigo = codigo;
 	}
 
@@ -106,20 +105,20 @@ public class Produto implements Serializable{
 		this.codigoBarra = codigoBarra;
 	}
 
-	public String getNomeFornecedor() {
-		return nomeFornecedor;
-	}
-
-	public void setNomeFornecedor(String nomeFornecedor) {
-		this.nomeFornecedor = nomeFornecedor;
-	}
-
 	public Loja getLoja() {
 		return loja;
 	}
 
 	public void setLoja(Loja loja) {
 		this.loja = loja;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 
 }

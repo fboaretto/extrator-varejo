@@ -10,8 +10,8 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the com.projetandoo.extrator.clienteWS package. 
- * <p>An ObjectFactory allows you to programmatically 
+ * generated in the src package. 
+ * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
  * content can consist of schema derived interfaces 
@@ -28,9 +28,8 @@ public class ObjectFactory {
     private final static QName _Salvar_QNAME = new QName("http://service.varejodigital.projetandoo/1.0/", "salvar");
 
     /**
-     * Create a new ObjectFactory that can be used to create 
-     * new instances of schema derived classes for package: 
-     * com.projetandoo.extrator.clienteWS
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: src
+     * 
      */
     public ObjectFactory() {
     }
@@ -52,11 +51,43 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link QuantidadeVendasPorMes }
+     * 
+     */
+    public QuantidadeVendasPorMes createQuantidadeVendasPorMes() {
+        return new QuantidadeVendasPorMes();
+    }
+
+    /**
+     * Create an instance of {@link QuantidadeVendasPorSemana }
+     * 
+     */
+    public QuantidadeVendasPorSemana createQuantidadeVendasPorSemana() {
+        return new QuantidadeVendasPorSemana();
+    }
+
+    /**
+     * Create an instance of {@link QuantidadeVendasPorDia }
+     * 
+     */
+    public QuantidadeVendasPorDia createQuantidadeVendasPorDia() {
+        return new QuantidadeVendasPorDia();
+    }
+
+    /**
      * Create an instance of {@link FornecedorType }
      * 
      */
     public FornecedorType createFornecedorType() {
         return new FornecedorType();
+    }
+
+    /**
+     * Create an instance of {@link ProdutoCadastroType }
+     * 
+     */
+    public ProdutoCadastroType createProdutoCadastroType() {
+        return new ProdutoCadastroType();
     }
 
     /**

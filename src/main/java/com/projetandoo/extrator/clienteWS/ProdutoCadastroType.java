@@ -2,23 +2,19 @@
 package com.projetandoo.extrator.clienteWS;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * <p>Java class for ProdutoType complex type.
+ * <p>Java class for ProdutoCadastroType complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * <complexType name="ProdutoType">
+ * <complexType name="ProdutoCadastroType">
  *   <complexContent>
  *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       <sequence>
@@ -33,12 +29,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *         <element name="codigoBarra" type="{http://www.w3.org/2001/XMLSchema}string"/>
  *         <element name="codigoInterno" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *         <element name="codigoExterno" type="{http://www.w3.org/2001/XMLSchema}long"/>
- *         <element name="fornecedores" type="{http://schema.varejodigital.projetandoo/1.0/}FornecedorType" maxOccurs="unbounded" minOccurs="0"/>
- *         <element name="margem" type="{http://www.w3.org/2001/XMLSchema}decimal" minOccurs="0"/>
- *         <element name="vendasPorDia" type="{http://service.varejodigital.projetandoo/1.0/}quantidadeVendasPorDia" minOccurs="0"/>
- *         <element name="vendasPorSemana" type="{http://service.varejodigital.projetandoo/1.0/}quantidadeVendasPorSemana" minOccurs="0"/>
- *         <element name="vendasPorMes" type="{http://service.varejodigital.projetandoo/1.0/}quantidadeVendasPorMes" minOccurs="0"/>
- *         <element name="dataAuditoria" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         <element name="fornecedor" type="{http://schema.varejodigital.projetandoo/1.0/}FornecedorType" minOccurs="0"/>
+ *         <element name="id" type="{http://www.w3.org/2001/XMLSchema}long"/>
  *       </sequence>
  *     </restriction>
  *   </complexContent>
@@ -47,7 +39,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ProdutoType", propOrder = {
+@XmlType(name = "ProdutoCadastroType", propOrder = {
 		"loja",
 		"departamanento",
 		"nome",
@@ -59,14 +51,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 		"codigoBarra",
 		"codigoInterno",
 		"codigoExterno",
-		"fornecedores",
-		"margem",
-		"vendasPorDia",
-		"vendasPorSemana",
-		"vendasPorMes",
-		"dataAuditoria"
+		"fornecedor",
+		"id"
 })
-public class ProdutoType {
+public class ProdutoCadastroType {
 
 	@XmlElement(required = true)
 	protected LojaType loja;
@@ -98,19 +86,9 @@ public class ProdutoType {
 
 	protected long codigoExterno;
 
-	@XmlElement(nillable = true)
-	protected List<FornecedorType> fornecedores;
+	protected FornecedorType fornecedor;
 
-	protected BigDecimal margem;
-
-	protected QuantidadeVendasPorDia vendasPorDia;
-
-	protected QuantidadeVendasPorSemana vendasPorSemana;
-
-	protected QuantidadeVendasPorMes vendasPorMes;
-
-	@XmlSchemaType(name = "dateTime")
-	protected XMLGregorianCalendar dataAuditoria;
+	protected long id;
 
 	/**
 	 * Gets the value of the loja property.
@@ -361,153 +339,43 @@ public class ProdutoType {
 	}
 
 	/**
-	 * Gets the value of the fornecedores property.
-	 * 
-	 * <p>
-	 * This accessor method returns a reference to the live list,
-	 * not a snapshot. Therefore any modification you make to the
-	 * returned list will be present inside the JAXB object.
-	 * This is why there is not a <CODE>set</CODE> 
-	 * method for the fornecedores property.
-	 * 
-	 * <p>
-	 * For example, to add a new item, do as follows:
-	 * <pre>
-	 *    getFornecedores().add(newItem);
-	 * </pre>
-	 * 
-	 * 
-	 * <p>
-	 * Objects of the following type(s) are allowed in the list
-	 * {@link FornecedorType }
-	 * 
-	 * 
-	 */
-	public List<FornecedorType> getFornecedores() {
-		if (fornecedores == null) {
-			fornecedores = new ArrayList<FornecedorType>();
-		}
-		return this.fornecedores;
-	}
-
-	/**
-	 * Gets the value of the margem property.
+	 * Gets the value of the fornecedor property.
 	 * 
 	 * @return
 	 *     possible object is
-	 *     {@link BigDecimal }
+	 *     {@link FornecedorType }
 	 *     
 	 */
-	public BigDecimal getMargem() {
-		return margem;
+	public FornecedorType getFornecedor() {
+		return fornecedor;
 	}
 
 	/**
-	 * Sets the value of the margem property.
+	 * Sets the value of the fornecedor property.
 	 * 
 	 * @param value
 	 *     allowed object is
-	 *     {@link BigDecimal }
+	 *     {@link FornecedorType }
 	 *     
 	 */
-	public void setMargem(BigDecimal value) {
-		this.margem = value;
+	public void setFornecedor(FornecedorType value) {
+		this.fornecedor = value;
 	}
 
 	/**
-	 * Gets the value of the vendasPorDia property.
+	 * Gets the value of the id property.
 	 * 
-	 * @return
-	 *     possible object is
-	 *     {@link QuantidadeVendasPorDia }
-	 *     
 	 */
-	public QuantidadeVendasPorDia getVendasPorDia() {
-		return vendasPorDia;
+	public long getId() {
+		return id;
 	}
 
 	/**
-	 * Sets the value of the vendasPorDia property.
+	 * Sets the value of the id property.
 	 * 
-	 * @param value
-	 *     allowed object is
-	 *     {@link QuantidadeVendasPorDia }
-	 *     
 	 */
-	public void setVendasPorDia(QuantidadeVendasPorDia value) {
-		this.vendasPorDia = value;
-	}
-
-	/**
-	 * Gets the value of the vendasPorSemana property.
-	 * 
-	 * @return
-	 *     possible object is
-	 *     {@link QuantidadeVendasPorSemana }
-	 *     
-	 */
-	public QuantidadeVendasPorSemana getVendasPorSemana() {
-		return vendasPorSemana;
-	}
-
-	/**
-	 * Sets the value of the vendasPorSemana property.
-	 * 
-	 * @param value
-	 *     allowed object is
-	 *     {@link QuantidadeVendasPorSemana }
-	 *     
-	 */
-	public void setVendasPorSemana(QuantidadeVendasPorSemana value) {
-		this.vendasPorSemana = value;
-	}
-
-	/**
-	 * Gets the value of the vendasPorMes property.
-	 * 
-	 * @return
-	 *     possible object is
-	 *     {@link QuantidadeVendasPorMes }
-	 *     
-	 */
-	public QuantidadeVendasPorMes getVendasPorMes() {
-		return vendasPorMes;
-	}
-
-	/**
-	 * Sets the value of the vendasPorMes property.
-	 * 
-	 * @param value
-	 *     allowed object is
-	 *     {@link QuantidadeVendasPorMes }
-	 *     
-	 */
-	public void setVendasPorMes(QuantidadeVendasPorMes value) {
-		this.vendasPorMes = value;
-	}
-
-	/**
-	 * Gets the value of the dataAuditoria property.
-	 * 
-	 * @return
-	 *     possible object is
-	 *     {@link XMLGregorianCalendar }
-	 *     
-	 */
-	public XMLGregorianCalendar getDataAuditoria() {
-		return dataAuditoria;
-	}
-
-	/**
-	 * Sets the value of the dataAuditoria property.
-	 * 
-	 * @param value
-	 *     allowed object is
-	 *     {@link XMLGregorianCalendar }
-	 *     
-	 */
-	public void setDataAuditoria(XMLGregorianCalendar value) {
-		this.dataAuditoria = value;
+	public void setId(long value) {
+		this.id = value;
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.projetandoo.extrator.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.ArrayList;
@@ -9,73 +10,106 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import com.projetandoo.extrator.clienteWS.DepartamentoType;
 import com.projetandoo.extrator.clienteWS.EstoqueType;
+import com.projetandoo.extrator.clienteWS.GondolaType;
 import com.projetandoo.extrator.clienteWS.LojaType;
 import com.projetandoo.extrator.clienteWS.ObjectFactory;
-import com.projetandoo.extrator.clienteWS.ProdutoType;
+import com.projetandoo.extrator.clienteWS.ProdutoCadastroType;
 import com.projetandoo.extrator.clienteWS.Produtos;
 import com.projetandoo.extrator.clienteWS.Produtos_Service;
 import com.projetandoo.extrator.model.Produto;
 
-public class ExtratorArquivoProdutos {
+public class ExtratorArquivoProdutos 
+{
 
-	private static final Logger logging = Logger.getLogger(ExtratorArquivoProdutos.class);
+	private static final int        COD_EXTERNO_PRODUTOS = 000000;
+	private static final BigDecimal ZERO_BIG_DECIMAL     = new BigDecimal(0);
+	private static final Logger     LOGGER               = Logger.getLogger(ExtratorArquivoProdutos.class);
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException 
+	{
 
-		String arquivoCargaProdutoFornecedores = //args[0];
-				"/home/fboaretto/Documentos/Projetandoo/arquivosExtracao/relatoriodeprodutoscadastradoseestoque/CW000200.SPL";
+		String arquivoCargaProdutoFornecedores = "";
 
-		String arquivoCargaPrecos = //args[1];
-				"/home/fboaretto/Documentos/Projetandoo/arquivosExtracao/relatoriodeprodutoscadastradoseestoque/sp001148.txt";
+		String arquivoCargaPrecos = "";
 
 		//Primeiro Arquivo
 		LeitorArquivoProdutos leitorProdutos = new LeitorArquivoProdutos();
 		Map<String, Produto> mapaProdutos = leitorProdutos.leArquivo(arquivoCargaProdutoFornecedores);
 
-		logging.debug("\n\n\nTOTAL :::::: " + mapaProdutos.size() + "\n");
-		logging.debug("===== IMPRIMINDO MIX([chave]:valor) =====\n");
-		for (Map.Entry<String, Produto> mapaProduto : mapaProdutos.entrySet()) {
-			logging.debug("[" + mapaProduto.getKey() + "]: "+ mapaProduto.getValue() + "\n");
+		LOGGER.debug("\n\n\nTOTAL :::::: " + mapaProdutos.size() + "\n");
+		LOGGER.debug("===== IMPRIMINDO MIX([chave]:valor) =====\n");
+		
+		for (Map.Entry<String, Produto> mapaProduto : mapaProdutos.entrySet()) 
+		{
+			LOGGER.debug("[" + mapaProduto.getKey() + "]: "+ mapaProduto.getValue() + "\n");
 		}
 
 		//Segundo Arquivo
 		LeitorArquivoPrecos leitorPrecos = new LeitorArquivoPrecos(mapaProdutos);
 		List<Produto> listaProdutos = leitorPrecos.leArquivo(arquivoCargaPrecos);
 
-		logging.debug("\n\nTOTAL :::::: " + listaProdutos.size());
-		logging.debug("IMPRIMINDO " + listaProdutos.size()
+		LOGGER.debug("\n\nTOTAL :::::: " + listaProdutos.size());
+		LOGGER.debug("IMPRIMINDO " + listaProdutos.size()
 				+ " PRODUTOS ATUALIZADOS DOS " + mapaProdutos.size()
 				+ " VINDOS DO PRIMEIRO ARQUIVO:\n");
 
 		ObjectFactory factory = new ObjectFactory();
+		
+		LojaType lojaType = factory.createLojaType();
+		
+		DepartamentoType departamentoType = factory.createDepartamentoType();
 
-		List<ProdutoType> listaProdutosTypes = new ArrayList<ProdutoType>();
+		List<ProdutoCadastroType> listaProdutosTypes = new ArrayList<ProdutoCadastroType>();
 
 
-		for (Produto produto : listaProdutos) {
+		for(Produto produto : listaProdutos) 
+		{
+			LOGGER.debug("PRODUTO ARQUIVO: " + produto);
 
-			logging.debug("PRODUTO ARQUIVO: " + produto);
+			ProdutoCadastroType produtoCadType = factory.createProdutoCadastroType();
 
-			ProdutoType produtoType = factory.createProdutoType();
-			produtoType.setCodigoInterno(produto.getCodigo());
-			produtoType.setNome(produto.getNome());
-			produtoType.setCodigoBarra(produto.getCodigoBarra());
+			produtoCadType.setPeso(ZERO_BIG_DECIMAL);
+			produtoCadType.setCodigoExterno(COD_EXTERNO_PRODUTOS);
+			
+			//QUAL ID???
+			produtoCadType.setId(1);
+
+			produtoCadType.setNome(produto.getNome());
+			produtoCadType.setCodigoInterno(produto.getCodigo());
+			produtoCadType.setCodigoBarra(produto.getCodigoBarra());
 
 			EstoqueType estoqueType = factory.createEstoqueType();
 			estoqueType.setDisponivel(produto.getEstoque().getDisponivel());
-			produtoType.setEstoque(estoqueType);
+			estoqueType.setMaximo(ZERO_BIG_DECIMAL);
+			estoqueType.setMinimo(ZERO_BIG_DECIMAL);
+			estoqueType.setRessuprimento(ZERO_BIG_DECIMAL);
+			produtoCadType.setEstoque(estoqueType);
 
-			LojaType lojaType = factory.createLojaType();
+			GondolaType gondolaType = factory.createGondolaType();
+			gondolaType.setDisponivel(ZERO_BIG_DECIMAL);
+			gondolaType.setMaximo(ZERO_BIG_DECIMAL);
+			gondolaType.setMinimo(ZERO_BIG_DECIMAL);
+			gondolaType.setReposicao(ZERO_BIG_DECIMAL);
+			produtoCadType.setGondola(gondolaType);
+
+			//Loja
 			lojaType.setId(produto.getLoja().getId());
-			produtoType.setLoja(lojaType);
+			produtoCadType.setLoja(lojaType);
 
-			produtoType.setCusto(produto.getValorCusto());
-			produtoType.setPreco(produto.getValorVenda());
+			//Departamento
+			departamentoType.setId(Long.valueOf(0));
+			departamentoType.setNome("Departamento1");
+			produtoCadType.setDepartamanento(departamentoType);
 
-			listaProdutosTypes.add(produtoType);
-			logging.debug("PRODUTO_TYPE de código: " + produtoType.getCodigoInterno() + " foi inserido.");
+			produtoCadType.setCusto(produto.getValorCusto());
+			produtoCadType.setPreco(produto.getValorVenda());
+
+			listaProdutosTypes.add(produtoCadType);
+			LOGGER.debug("PRODUTO_TYPE de código: " + produtoCadType.getCodigoInterno() + " foi inserido.");
 		}
+
 
 		Authenticator.setDefault(new Authenticator() {
 			@Override
@@ -89,9 +123,9 @@ public class ExtratorArquivoProdutos {
 		Produtos_Service servico = new Produtos_Service();
 		Produtos produtos = servico.getProdutosSOAP();
 
-		for (ProdutoType produtoType : listaProdutosTypes) {
+		for (ProdutoCadastroType produtoCadastroType : listaProdutosTypes) {
 
-			produtos.salvar(produtoType);
+			produtos.salvar(produtoCadastroType);
 		}			
 
 	}

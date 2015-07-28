@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Loja implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 3069590353340391832L;
 
 	private Long id;
 

@@ -12,76 +12,76 @@ import javax.xml.bind.annotation.XmlType;
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="FornecedorType">
- *   &lt;complexContent>
- *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
- *       &lt;sequence>
- *         &lt;element name="nome" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="loja" type="{http://schema.varejodigital.projetandoo/1.0/}LojaType" minOccurs="0"/>
- *       &lt;/sequence>
- *     &lt;/restriction>
- *   &lt;/complexContent>
- * &lt;/complexType>
+ * <complexType name="FornecedorType">
+ *   <complexContent>
+ *     <restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       <sequence>
+ *         <element name="id" type="{http://www.w3.org/2001/XMLSchema}long" minOccurs="0"/>
+ *         <element name="nome" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *       </sequence>
+ *     </restriction>
+ *   </complexContent>
+ * </complexType>
  * </pre>
- * 
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FornecedorType", propOrder = {
-    "nome",
-    "loja"
+		"id",
+		"nome"
 })
 public class FornecedorType {
 
-    protected String nome;
-    protected LojaType loja;
+	protected Long id;
 
-    /**
-     * Gets the value of the nome property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getNome() {
-        return nome;
-    }
+	protected String nome;
 
-    /**
-     * Sets the value of the nome property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
-    public void setNome(String value) {
-        this.nome = value;
-    }
+	/**
+	 * Gets the value of the id property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link Long }
+	 *     
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * Gets the value of the loja property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link LojaType }
-     *     
-     */
-    public LojaType getLoja() {
-        return loja;
-    }
+	/**
+	 * Sets the value of the id property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link Long }
+	 *     
+	 */
+	public void setId(Long value) {
+		this.id = value;
+	}
 
-    /**
-     * Sets the value of the loja property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link LojaType }
-     *     
-     */
-    public void setLoja(LojaType value) {
-        this.loja = value;
-    }
+	/**
+	 * Gets the value of the nome property.
+	 * 
+	 * @return
+	 *     possible object is
+	 *     {@link String }
+	 *     
+	 */
+	public String getNome() {
+		return nome;
+	}
+
+	/**
+	 * Sets the value of the nome property.
+	 * 
+	 * @param value
+	 *     allowed object is
+	 *     {@link String }
+	 *     
+	 */
+	public void setNome(String value) {
+		this.nome = value;
+	}
 
 }
