@@ -29,9 +29,14 @@ public interface Produtos
 	 */
 	@WebMethod(action = "salvarProduto")
 	@WebResult(targetNamespace = "")
-	@RequestWrapper(localName = "salvar", targetNamespace = "http://service.varejodigital.projetandoo/1.0/", className = "src.Salvar")
-	@ResponseWrapper(localName = "salvarResponse", targetNamespace = "http://service.varejodigital.projetandoo/1.0/", className = "src.SalvarResponse")
-	@Action(input = "salvarProduto", output = "http://service.varejodigital.projetandoo/1.0/Produtos/salvarResponse")
+	@RequestWrapper(localName = "salvar", 
+					targetNamespace = "http://service.varejodigital.projetandoo/1.0/", 
+					className = "src.Salvar")
+	@ResponseWrapper(localName = "salvarResponse", 
+					 targetNamespace = "http://service.varejodigital.projetandoo/1.0/", 
+					 className = "src.SalvarResponse")
+	@Action(input = "salvarProduto", 
+			output = "http://service.varejodigital.projetandoo/1.0/Produtos/salvarResponse")
 	public ProdutoResponseType salvar(
 			@WebParam(name = "produto", targetNamespace = "")
 			ProdutoCadastroType produto);

@@ -378,4 +378,13 @@ public class ProdutoCadastroType {
 		this.id = value;
 	}
 
+	@Override
+	public String toString() {
+		return "ProdutoCadastroType [loja=" + loja + ", nome=" + nome
+				+ ", preco=" + preco + ", custo=" + custo + ", peso=" + peso
+				+ ", estoque=" + estoque + ", codigoBarra=" + codigoBarra
+				+ ", codigoInterno=" + codigoInterno + ", codigoExterno="
+				+ codigoExterno + ", fornecedor=" + fornecedor + "]";
+	}
+
 }

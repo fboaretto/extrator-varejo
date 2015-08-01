@@ -15,29 +15,27 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import com.projetandoo.extrator.model.Produto;
+import com.projetandoo.extrator.clienteWS.ProdutoCadastroType;
 
 public class LeitorArquivoPrecos 
 {
-
 	private static final String PREFIX_MARKAO 			= "MARKAO COSMETICOS";
 	private static final String PREFIX_PRODUTO_INVALIDO = "SALDO DE BALANCO";
 
-	private Map<String, Produto> produtosMapaEntrada = new HashMap<String, Produto>();
+	private Map<String, ProdutoCadastroType> produtosMapaEntrada = new HashMap<String, ProdutoCadastroType>();
 
-	private List<Produto> produtosListaSaida = new ArrayList<Produto>();
+	private List<ProdutoCadastroType> produtosListaSaida = new ArrayList<ProdutoCadastroType>();
 
-	private static final Logger logging = Logger.getLogger(LeitorArquivoPrecos.class);
+	private static final Logger LOGGER = Logger.getLogger(LeitorArquivoPrecos.class);
 
 
-	public LeitorArquivoPrecos(Map<String, Produto> produtosMapEntrada) 
+	public LeitorArquivoPrecos(Map<String, ProdutoCadastroType> produtosMapEntrada) 
 	{
 		this.produtosMapaEntrada = produtosMapEntrada;
 	}
 
-	public List<Produto> leArquivo(String arquivo) throws IOException 
+	public List<ProdutoCadastroType> leArquivo(String arquivo) throws IOException 
 	{
-
 		FileWriter fWriter = 
 				new FileWriter("/home/fboaretto/Documentos/Projetandoo/arquivosExtracao/relatoriodeprodutoscadastradoseestoque/lista_produtos_FINAL.txt");
 		PrintWriter pWriter = new PrintWriter(new BufferedWriter(fWriter));
@@ -78,9 +76,9 @@ public class LeitorArquivoPrecos
 			String valorCustoUnidade = linha.substring(116, 124);
 			valorCustoUnidade = formataValor(valorCustoUnidade);
 
-			logging.debug(codigo + "\t[" + volume + "]\t" + valorVendaVolume + "\t" + valorCustoUnidade + "\t");
+			LOGGER.debug(codigo + "\t[" + volume + "]\t" + valorVendaVolume + "\t" + valorCustoUnidade + "\t");
 
-			Produto produto = produtosMapaEntrada.get(codigo);
+			ProdutoCadastroType produto = produtosMapaEntrada.get(codigo);
 
 			atualizaValoresProduto(produto, volume, valorVendaVolume, valorCustoUnidade);
 
@@ -99,19 +97,19 @@ public class LeitorArquivoPrecos
 	}
 
 
-	public void atualizaValoresProduto(Produto produto, String volume, String valorVendaVolume, String valorCustoUnidade) 
+	private void atualizaValoresProduto(ProdutoCadastroType produto, String volume, String valorVendaVolume, String valorCustoUnidade) 
 	{
 		int volumeInt = Integer.parseInt(volume);
 
 		BigDecimal valorVendaVolumeBD = new BigDecimal(valorVendaVolume);
 		BigDecimal valorVendaUnidade = valorVendaVolumeBD.divide(new BigDecimal(volumeInt));
 
-		produto.setValorVenda(valorVendaUnidade);
-		produto.setValorCusto(new BigDecimal(valorCustoUnidade));
+		produto.setPreco(valorVendaUnidade);
+		produto.setCusto(new BigDecimal(valorCustoUnidade));
 	}
 
 
-	public String formataValor(String valor) 
+	private String formataValor(String valor) 
 	{
 		String valorFormatado = valor.trim();
 
