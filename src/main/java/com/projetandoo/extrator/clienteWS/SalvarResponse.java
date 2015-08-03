@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "salvarResponse", namespace = "http://service.varejodigital.projetandoo/1.0/", propOrder = {
-    "_return"
-})
+@XmlType(name = "salvarProdResponse", 
+		 namespace = "http://service.varejodigital.projetandoo/1.0/", 
+		 propOrder = { "_return" })
 public class SalvarResponse {
 
     @XmlElement(name = "return")

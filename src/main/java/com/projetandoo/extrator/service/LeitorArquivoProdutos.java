@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.projetandoo.extrator.clienteWS.EstoqueType;
 import com.projetandoo.extrator.clienteWS.FornecedorType;
+import com.projetandoo.extrator.clienteWS.GondolaType;
 import com.projetandoo.extrator.clienteWS.LojaType;
 import com.projetandoo.extrator.clienteWS.ObjectFactory;
 import com.projetandoo.extrator.clienteWS.ProdutoCadastroType;
@@ -23,8 +24,8 @@ public class LeitorArquivoProdutos
 	private static final String PREFIX_FINAL_ARQUIVO    = "-----";
 	private static final String PREFIX_PRODUTO_INVALIDO = " SALDO DE BALANCO";
 
-	private static final BigDecimal ZERO_BIG_DECIMAL     = new BigDecimal(0);
-	private static final long 		COD_EXTERNO_PRODUTOS = 000000;
+	private static final BigDecimal UM_BIG_DECIMAL       = new BigDecimal(1);
+	private static final long 		COD_EXTERNO_PRODUTOS = 0;
 
 	private static final Logger LOGGER = Logger.getLogger(LeitorArquivoProdutos.class);
 
@@ -45,10 +46,10 @@ public class LeitorArquivoProdutos
 		{
 			if (i == 4) 
 			{
-				Long idLoja = Long.parseLong(linha.substring(10, 13).trim());
+				//Long idLoja = Long.parseLong(linha.substring(10, 13).trim());
 				//String nomeLoja = linha.substring(14, 34).trim();
-				loja.setId(idLoja);
-				loja.setCodigoInterno(idLoja);
+				loja.setId((long) 1);
+				loja.setCodigoInterno((long) 1);
 			}
 			linha = buffReader.readLine();
 		}
@@ -90,30 +91,36 @@ public class LeitorArquivoProdutos
 					+ "]\t[" + codBarra + "]\t" + nomeFornecedor + "\t"
 					+ loja.getId());
 
-			ProdutoCadastroType produto = atualizaValoresProduto(nome, codigo,
+			ProdutoCadastroType produto = capturaValoresProduto(nome, codigo,
 					estoqueDisponivel, codBarra, nomeFornecedor);
-			
-			LOGGER.debug(produto.toString());
 
 			produtos.put(codigo, produto);
 			linha = buffReader.readLine();
 		}
 
 		buffReader.close();
+
 		return produtos;
 	}
 
 
-	private ProdutoCadastroType atualizaValoresProduto(String nome, String codigo, String estoqueDisponivel, 
+	private ProdutoCadastroType capturaValoresProduto(String nome, String codigo, String estoqueDisponivel, 
 			String codBarra, String nomeFornecedor) 
 	{
 		ProdutoCadastroType produto = factory.createProdutoCadastroType();
 
-		produto.setNome(nome);
-		produto.setCodigoInterno(Long.parseLong(codigo));
-		produto.setCodigoExterno(COD_EXTERNO_PRODUTOS);
-		produto.setPeso(ZERO_BIG_DECIMAL);
 		produto.setLoja(loja);
+		produto.setNome(nome);
+
+		/**
+		 * Setando os preços/custos de todos os produtos do primeiro arquivo com UM.
+		 * No segundo arquivo, aqueles que possuem algum valor, serão atualizados.
+		 * Aqueles que não foram, permaneceram com UM ao invés de NULL.
+		 */
+		produto.setPreco(UM_BIG_DECIMAL);
+		produto.setCusto(UM_BIG_DECIMAL);
+
+		produto.setPeso(UM_BIG_DECIMAL);
 
 		EstoqueType estoque = factory.createEstoqueType();
 
@@ -121,30 +128,37 @@ public class LeitorArquivoProdutos
 			estoque.setDisponivel(new BigDecimal(0));
 		else 
 			estoque.setDisponivel(new BigDecimal(estoqueDisponivel));
-		
-		estoque.setMaximo(ZERO_BIG_DECIMAL);
-		estoque.setMinimo(ZERO_BIG_DECIMAL);
-		estoque.setRessuprimento(ZERO_BIG_DECIMAL);
+
+		estoque.setMaximo(UM_BIG_DECIMAL);
+		estoque.setMinimo(UM_BIG_DECIMAL);
+		estoque.setRessuprimento(UM_BIG_DECIMAL);
 
 		produto.setEstoque(estoque);
-		
-		/*GondolaType gondola = factory.createGondolaType();
-		gondola.setDisponivel(ZERO_BIG_DECIMAL);
-		gondola.setMaximo(ZERO_BIG_DECIMAL);
-		gondola.setMinimo(ZERO_BIG_DECIMAL);
-		gondola.setReposicao(ZERO_BIG_DECIMAL);
-		
-		produto.setGondola(gondola);*/
+
+		GondolaType gondola = factory.createGondolaType();
+		gondola.setDisponivel(UM_BIG_DECIMAL);
+		gondola.setMaximo(UM_BIG_DECIMAL);
+		gondola.setMinimo(UM_BIG_DECIMAL);
+		gondola.setReposicao(UM_BIG_DECIMAL);
+
+		produto.setGondola(gondola);
 
 		if (codBarra.isEmpty())
-			produto.setCodigoBarra(null);
+			produto.setCodigoBarra("1111111111111");
 		else
 			produto.setCodigoBarra(codBarra);
 
+		produto.setCodigoInterno(Long.parseLong(codigo));
+
+		produto.setCodigoExterno(COD_EXTERNO_PRODUTOS);
+
 		FornecedorType fornecedor = factory.createFornecedorType();
+		fornecedor.setId((long) 1);
 		fornecedor.setNome(nomeFornecedor);
 
 		produto.setFornecedor(fornecedor);
+
+		produto.setId(1);
 
 		return produto;
 	}

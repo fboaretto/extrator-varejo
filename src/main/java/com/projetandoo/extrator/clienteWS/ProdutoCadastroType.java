@@ -380,11 +380,11 @@ public class ProdutoCadastroType {
 
 	@Override
 	public String toString() {
-		return "ProdutoCadastroType [loja=" + loja + ", nome=" + nome
-				+ ", preco=" + preco + ", custo=" + custo + ", peso=" + peso
-				+ ", estoque=" + estoque + ", codigoBarra=" + codigoBarra
-				+ ", codigoInterno=" + codigoInterno + ", codigoExterno="
-				+ codigoExterno + ", fornecedor=" + fornecedor + "]";
+		return "ProdutoCadastroType [nome=" + nome + ", codigoInterno="
+				+ codigoInterno + ", custo=" + custo + ", preco=" + preco
+				+ ", peso=" + peso + ", estoque=" + estoque.getDisponivel()
+				+ ", codigoBarra=" + codigoBarra + ", fornecedor="
+				+ fornecedor.getNome() + "]";
 	}
 
 }

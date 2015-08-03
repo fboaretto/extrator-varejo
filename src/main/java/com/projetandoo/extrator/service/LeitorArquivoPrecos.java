@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -22,25 +20,24 @@ public class LeitorArquivoPrecos
 	private static final String PREFIX_MARKAO 			= "MARKAO COSMETICOS";
 	private static final String PREFIX_PRODUTO_INVALIDO = "SALDO DE BALANCO";
 
-	private Map<String, ProdutoCadastroType> produtosMapaEntrada = new HashMap<String, ProdutoCadastroType>();
-
-	private List<ProdutoCadastroType> produtosListaSaida = new ArrayList<ProdutoCadastroType>();
-
 	private static final Logger LOGGER = Logger.getLogger(LeitorArquivoPrecos.class);
 
+	private Map<String, ProdutoCadastroType> produtosMapaEntrada = new HashMap<String, ProdutoCadastroType>();
 
 	public LeitorArquivoPrecos(Map<String, ProdutoCadastroType> produtosMapEntrada) 
 	{
 		this.produtosMapaEntrada = produtosMapEntrada;
 	}
 
-	public List<ProdutoCadastroType> leArquivo(String arquivo) throws IOException 
+	public Map<String, ProdutoCadastroType> leArquivo(String arquivo) throws IOException 
 	{
 		FileWriter fWriter = 
 				new FileWriter("/home/fboaretto/Documentos/Projetandoo/arquivosExtracao/relatoriodeprodutoscadastradoseestoque/lista_produtos_FINAL.txt");
+
 		PrintWriter pWriter = new PrintWriter(new BufferedWriter(fWriter));
 
-		BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream(arquivo), "IBM850"));
+		BufferedReader buffReader = 
+				new BufferedReader(new InputStreamReader(new FileInputStream(arquivo), "IBM850"));
 
 		String linha = buffReader.readLine();
 
@@ -50,6 +47,8 @@ public class LeitorArquivoPrecos
 			linha = buffReader.readLine();
 		}
 
+		int countAtualizados = 0;
+
 		while (linha != null) 
 		{
 			if (linha.contains(PREFIX_MARKAO)) 
@@ -58,10 +57,9 @@ public class LeitorArquivoPrecos
 					linha = buffReader.readLine();
 				}
 			}
-			
+
 			if (linha.startsWith(PREFIX_PRODUTO_INVALIDO)) 
 			{
-				//logging.debug("SALDO DE BALANCO ...próx linha");
 				linha = buffReader.readLine();
 				continue;
 			}
@@ -76,28 +74,39 @@ public class LeitorArquivoPrecos
 			String valorCustoUnidade = linha.substring(116, 124);
 			valorCustoUnidade = formataValor(valorCustoUnidade);
 
-			LOGGER.debug(codigo + "\t[" + volume + "]\t" + valorVendaVolume + "\t" + valorCustoUnidade + "\t");
+			//LOGGER.debug(codigo + "\t[" + volume + "]\t" + valorVendaVolume + "\t" + valorCustoUnidade + "\t");
 
-			ProdutoCadastroType produto = produtosMapaEntrada.get(codigo);
 
-			atualizaValoresProduto(produto, volume, valorVendaVolume, valorCustoUnidade);
+			if (produtosMapaEntrada.containsKey(codigo)) 
+			{
+				ProdutoCadastroType produtoAtualizado = produtosMapaEntrada.remove(codigo);
+				atualizaValoresProduto(produtoAtualizado, volume, valorVendaVolume, valorCustoUnidade);
 
-			produtosListaSaida.add(produto);
-			pWriter.println(produto);
+				produtosMapaEntrada.put(codigo, produtoAtualizado);
+
+				pWriter.println(produtoAtualizado);
+				countAtualizados += 1;
+			}
 
 			linha = buffReader.readLine();
 		}
 
-		pWriter.println("\nTOTAL: " + produtosListaSaida.size());
+		pWriter.println("\nATUALIZADOS.: " + countAtualizados + " produtos atualizados.");
+
+		/*for (Map.Entry<String, ProdutoCadastroType> entry : produtosMapaEntrada.entrySet()) 
+		{
+			LOGGER.debug(entry.getValue());
+		}*/
 
 		buffReader.close();
 		pWriter.close();
 
-		return produtosListaSaida;
+		return produtosMapaEntrada;
 	}
 
 
-	private void atualizaValoresProduto(ProdutoCadastroType produto, String volume, String valorVendaVolume, String valorCustoUnidade) 
+	private void atualizaValoresProduto(ProdutoCadastroType produto,
+			String volume, String valorVendaVolume, String valorCustoUnidade) 
 	{
 		int volumeInt = Integer.parseInt(volume);
 

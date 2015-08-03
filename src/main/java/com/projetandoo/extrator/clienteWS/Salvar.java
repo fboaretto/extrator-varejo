@@ -23,14 +23,13 @@ import javax.xml.bind.annotation.XmlType;
  * </complexType>
  * </pre>
  * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "salvar", namespace = "http://service.varejodigital.projetandoo/1.0/", propOrder = {
-    "produto"
-})
-public class Salvar {
-
+@XmlType(name = "salvarProd", 
+		 namespace = "http://service.varejodigital.projetandoo/1.0/", 
+		 propOrder = { "produto" })
+public class Salvar 
+{
     protected ProdutoCadastroType produto;
 
     /**
