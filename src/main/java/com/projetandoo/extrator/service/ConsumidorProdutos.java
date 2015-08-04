@@ -1,6 +1,11 @@
 package com.projetandoo.extrator.service;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.util.Map;
@@ -18,10 +23,13 @@ public class ConsumidorProdutos
 	public static void main(String[] args) throws IOException 
 	{
 		String arquivoCargaProdutos = 
-				".../CW000200_ANTERIOR.SPL";
+				".../CW000200.SPL";
 
 		String arquivoCargaPrecos = 
-				".../sp001148_ANTERIOR.txt";
+				".../sp001148.txt";
+
+		String arquivoControle = 
+				".../produtos_enviados.txt";
 
 		//Primeiro Arquivo
 		LeitorArquivoProdutos leitorProdutos = new LeitorArquivoProdutos();
@@ -32,7 +40,21 @@ public class ConsumidorProdutos
 		LeitorArquivoPrecos leitorPrecos = new LeitorArquivoPrecos(mapaProdutos);
 		Map<String, ProdutoCadastroType> mapaProdutosAtualizados = leitorPrecos.leArquivo(arquivoCargaPrecos);
 
-		LOGGER.debug("\n\nTOTAL :::::: " + mapaProdutosAtualizados.size());
+		//Arquivo Controle
+		BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream(arquivoControle)));
+		String linha = buffReader.readLine();
+
+		LOGGER.debug("\n\nTOTAL ANTES:::::: " + mapaProdutosAtualizados.size());
+		while (linha != null) 
+		{
+			if (mapaProdutosAtualizados.containsKey(linha))
+			{
+				mapaProdutosAtualizados.remove(linha);
+			}
+			linha = buffReader.readLine();
+		}
+		buffReader.close();
+		LOGGER.debug("\n\n..E DEPOIS!!!:::::: " + mapaProdutosAtualizados.size());
 
 
 		Authenticator.setDefault(new Authenticator() 
@@ -41,14 +63,17 @@ public class ConsumidorProdutos
 			protected PasswordAuthentication getPasswordAuthentication() 
 			{
 				return new PasswordAuthentication(
-						"marcelos...",
-						"123...".toCharArray());
+						"...",
+						"...".toCharArray());
 			}
 		});
 
 
 		Produtos_Service servico = new Produtos_Service();
 		Produtos produtos = servico.getProdutosSOAP();
+
+		FileWriter arquivoControleAAtualizar = new FileWriter(arquivoControle, true);
+		PrintWriter pWriter = new PrintWriter(arquivoControleAAtualizar);
 
 		for (Map.Entry<String, ProdutoCadastroType> produto : mapaProdutosAtualizados.entrySet()) 
 		{
@@ -57,11 +82,14 @@ public class ConsumidorProdutos
 
 				LOGGER.debug("Produto: " + produto.getValue().getNome() + " - "
 						+ produto.getValue().getCodigoInterno() + " enviado com sucesso");
+				pWriter.println(produto.getKey());
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 
+		pWriter.close();
 	}
 
 }

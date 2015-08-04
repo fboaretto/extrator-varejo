@@ -31,10 +31,10 @@ public class LeitorArquivoPrecos
 
 	public Map<String, ProdutoCadastroType> leArquivo(String arquivo) throws IOException 
 	{
-		FileWriter fWriter = 
-				new FileWriter("/home/fboaretto/Documentos/Projetandoo/arquivosExtracao/relatoriodeprodutoscadastradoseestoque/lista_produtos_FINAL.txt");
+		FileWriter listagemFinal = 
+				new FileWriter("/home/fboaretto/Documentos/Projetandoo/arquivosExtracao/Produtos/lista_produtos_FINAL.txt");
 
-		PrintWriter pWriter = new PrintWriter(new BufferedWriter(fWriter));
+		PrintWriter pWriter = new PrintWriter(new BufferedWriter(listagemFinal));
 
 		BufferedReader buffReader = 
 				new BufferedReader(new InputStreamReader(new FileInputStream(arquivo), "IBM850"));
