@@ -13,8 +13,10 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.projetandoo.extrator.clienteWS.ProdutoCadastroType;
+import com.projetandoo.extrator.clienteWS.ProdutoResponseType;
 import com.projetandoo.extrator.clienteWS.Produtos;
 import com.projetandoo.extrator.clienteWS.Produtos_Service;
+import com.projetandoo.extrator.clienteWS.StatusType;
 
 public class ConsumidorProdutos 
 {
@@ -35,25 +37,26 @@ public class ConsumidorProdutos
 		LeitorArquivoProdutos leitorProdutos = new LeitorArquivoProdutos();
 		Map<String, ProdutoCadastroType> mapaProdutos = leitorProdutos.leArquivo(arquivoCargaProdutos);
 
-
 		//Segundo Arquivo
 		LeitorArquivoPrecos leitorPrecos = new LeitorArquivoPrecos(mapaProdutos);
 		Map<String, ProdutoCadastroType> mapaProdutosAtualizados = leitorPrecos.leArquivo(arquivoCargaPrecos);
 
 		//Arquivo Controle
 		BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream(arquivoControle)));
-		String linha = buffReader.readLine();
+		String linhaCodigo = buffReader.readLine();
 
 		LOGGER.debug("\n\nTOTAL ANTES:::::: " + mapaProdutosAtualizados.size());
-		while (linha != null) 
+		while (linhaCodigo != null) 
 		{
-			if (mapaProdutosAtualizados.containsKey(linha))
+			if (mapaProdutosAtualizados.containsKey(linhaCodigo))
 			{
-				mapaProdutosAtualizados.remove(linha);
+				mapaProdutosAtualizados.remove(linhaCodigo);
 			}
-			linha = buffReader.readLine();
+			linhaCodigo = buffReader.readLine();
 		}
+		
 		buffReader.close();
+		
 		LOGGER.debug("\n\n..E DEPOIS!!!:::::: " + mapaProdutosAtualizados.size());
 
 
@@ -77,14 +80,21 @@ public class ConsumidorProdutos
 
 		for (Map.Entry<String, ProdutoCadastroType> produto : mapaProdutosAtualizados.entrySet()) 
 		{
-			try {
-				produtos.salvar(produto.getValue());
+			try 
+			{
+				ProdutoResponseType produtoResponse = produtos.salvar(produto.getValue());
 
-				LOGGER.debug("Produto: " + produto.getValue().getNome() + " - "
-						+ produto.getValue().getCodigoInterno() + " enviado com sucesso");
-				pWriter.println(produto.getKey());
-
+				LOGGER.debug("[" + produtoResponse.getDataProcessamento() + "] : " 
+						+ produtoResponse.getProduto().getCodigoInterno() + ", STATUS: " + produtoResponse.getServiceStatus());
+				
+				if(produtoResponse.getServiceStatus().equals(StatusType.SUCESSO))
+				{
+					pWriter.println(produto.getKey());
+					pWriter.flush();
+				}
+				
 			} catch (Exception e) {
+				pWriter.close();
 				e.printStackTrace();
 			}
 		}

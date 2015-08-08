@@ -32,7 +32,7 @@ public class LeitorArquivoPrecos
 	public Map<String, ProdutoCadastroType> leArquivo(String arquivo) throws IOException 
 	{
 		FileWriter listagemFinal = 
-				new FileWriter("/home/fboaretto/Documentos/Projetandoo/arquivosExtracao/Produtos/lista_produtos_FINAL.txt");
+				new FileWriter(".../lista_produtos_FINAL.txt");
 
 		PrintWriter pWriter = new PrintWriter(new BufferedWriter(listagemFinal));
 
@@ -92,11 +92,6 @@ public class LeitorArquivoPrecos
 		}
 
 		pWriter.println("\nATUALIZADOS.: " + countAtualizados + " produtos atualizados.");
-
-		/*for (Map.Entry<String, ProdutoCadastroType> entry : produtosMapaEntrada.entrySet()) 
-		{
-			LOGGER.debug(entry.getValue());
-		}*/
 
 		buffReader.close();
 		pWriter.close();

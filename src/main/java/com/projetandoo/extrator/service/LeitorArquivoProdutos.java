@@ -25,6 +25,7 @@ public class LeitorArquivoProdutos
 	private static final String PREFIX_PRODUTO_INVALIDO = " SALDO DE BALANCO";
 
 	private static final BigDecimal UM_BIG_DECIMAL       = new BigDecimal(1);
+	private static final String 	COD_BARRA_DEFAULT    = "1111111111111";
 	private static final long 		COD_EXTERNO_PRODUTOS = 0;
 
 	private static final Logger LOGGER = Logger.getLogger(LeitorArquivoProdutos.class);
@@ -144,7 +145,7 @@ public class LeitorArquivoProdutos
 		produto.setGondola(gondola);
 
 		if (codBarra.isEmpty())
-			produto.setCodigoBarra("1111111111111");
+			produto.setCodigoBarra(COD_BARRA_DEFAULT);
 		else
 			produto.setCodigoBarra(codBarra);
 
